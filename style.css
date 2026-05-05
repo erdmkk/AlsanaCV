@@ -1462,14 +1462,13 @@
             }
             .cv-sheet {
                 transform-origin: top left;
-                transform: scale(calc((100vw - 20px) / 210mm));
-                margin-bottom: calc(297mm * calc((100vw - 20px) / 210mm) - 297mm + 40px);
             }
             .editor-header {
                 position: static;
                 flex-direction: column;
                 align-items: flex-start;
                 padding-top: 0;
+                gap: 1.5rem;
             }
             .header-actions {
                 width: 100%;

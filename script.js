@@ -760,9 +760,24 @@
             }
         }
 
+        function updateMobileScale() {
+            const sheet = document.getElementById('cv-sheet');
+            if (window.innerWidth <= 1024) {
+                const scale = (window.innerWidth - 20) / 794;
+                sheet.style.transform = `scale(${scale})`;
+                sheet.style.marginBottom = `${(1122 * scale) - 1122 + 40}px`;
+            } else {
+                sheet.style.transform = 'none';
+                sheet.style.marginBottom = '3rem';
+            }
+        }
+
+        window.addEventListener('resize', updateMobileScale);
+
         document.addEventListener('DOMContentLoaded', () => {
             setupDragAndDrop();
             ['exp-list', 'edu-list', 'proj-list', 'lang-list', 'cert-list', 'ref-list'].forEach(id => initSortable(id, '.item-card'));
             initSortable('main-sections-list', '.form-section');
             loadData();
+            updateMobileScale();
         });
