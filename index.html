@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al Sana CV</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'></path><polyline points='14 2 14 8 20 8'></polyline><line x1='16' y1='13' x2='8' y2='13'></line><line x1='16' y1='17' x2='8' y2='17'></line><polyline points='10 9 9 9 8 9'></polyline></svg>" type="image/svg+xml">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="editor-panel">
+        <div class="editor-header">
+            <h2 class="app-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="app-logo-icon">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <span>Al Sana</span> CV
+            </h2>
+            <div class="header-actions">
+                <input type="file" id="import-file" accept=".json" style="display:none;" onchange="handleImport(event)">
+                <button type="button" class="btn-export" style="background:#10b981; padding:0.6rem;" onclick="document.getElementById('import-file').click()" title="Verileri İçe Aktar (.json)">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:18px;height:18px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-export" style="background:#8b5cf6; padding:0.6rem;" onclick="exportJSON()" title="Verileri Dışa Aktar (.json)">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:18px;height:18px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                    </svg>
+                </button>
+
+                <button type="button" class="btn-export" style="background:#64748b;" onclick="showResetModal()"
+                    title="Tüm verileri temizle" id="btn-reset">Sıfırla</button>
+                <button type="button" class="btn-export" onclick="downloadPDF()" id="btn-pdf">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    PDF İndir
+                </button>
+            </div>
+        </div>
+
+        <div style="font-size:0.8rem; color:var(--text-muted); margin-top:-1rem; margin-bottom:1.5rem;"
+            id="lbl-autosave">
+            <svg style="width:14px; height:14px; vertical-align:middle; margin-right:4px;" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Değişiklikleriniz tarayıcıya otomatik kaydedilir.
+        </div>
+
+        <!-- TASARIM AYARLARI -->
+        <div class="form-section collapsed" id="fs-design">
+            <h3 onclick="toggleFormSection('fs-design')">
+                <div class="title-left">Tasarım Ayarları</div>
+                <button type="button" class="toggle-btn"></button>
+            </h3>
+            <div class="section-content">
+                <div class="setting-item" style="grid-column: 1 / -1; margin-bottom: 0.5rem;">
+                    <label id="lbl-tpl">Şablon Seçimi</label>
+                    <div class="template-selector">
+                        <button type="button" class="tpl-btn active" data-tpl="classic" onclick="changeTemplate('classic')">
+                            <svg viewBox="0 0 60 75" fill="none" style="width: 60px; height: 75px;">
+                                <rect width="60" height="75" rx="3" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+                                <rect x="20" y="8" width="20" height="3" rx="1.5" fill="#94a3b8"/>
+                                <rect x="15" y="14" width="30" height="1.5" rx="0.75" fill="#cbd5e1"/>
+                                <rect x="10" y="24" width="12" height="2" rx="1" fill="#94a3b8"/>
+                                <rect x="10" y="29" width="40" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                                <rect x="10" y="32" width="35" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                                <rect x="10" y="39" width="12" height="2" rx="1" fill="#94a3b8"/>
+                                <rect x="10" y="44" width="40" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                                <rect x="10" y="47" width="38" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                                <rect x="10" y="50" width="25" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                            </svg>
+                            <span id="lbl-tpl-classic">Klasik</span>
+                        </button>
+                        <button type="button" class="tpl-btn" data-tpl="modern" onclick="changeTemplate('modern')">
+                            <svg viewBox="0 0 60 75" fill="none" style="width: 60px; height: 75px;">
+                                <rect width="60" height="75" rx="3" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+                                <rect x="0" y="0" width="20" height="75" fill="#2563eb" fill-opacity="0.3"/>
+                                <circle cx="10" cy="12" r="5" fill="#2563eb" fill-opacity="0.5"/>
+                                <rect x="4" y="20" width="12" height="2" rx="1" fill="#2563eb" fill-opacity="0.6"/>
+                                <rect x="4" y="24" width="8" height="1.5" rx="0.75" fill="#2563eb" fill-opacity="0.4"/>
+                                <rect x="4" y="30" width="12" height="1" rx="0.5" fill="#2563eb" fill-opacity="0.4"/>
+                                <rect x="25" y="8" width="25" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                                <rect x="25" y="11" width="20" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                                <rect x="25" y="18" width="12" height="2" rx="1" fill="#94a3b8"/>
+                                <rect x="25" y="23" width="30" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                                <rect x="25" y="26" width="28" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                            </svg>
+                            <span id="lbl-tpl-modern">Modern</span>
+                        </button>
+                        <button type="button" class="tpl-btn" data-tpl="minimal" onclick="changeTemplate('minimal')">
+                            <svg viewBox="0 0 60 75" fill="none" style="width: 60px; height: 75px;">
+                                <rect width="60" height="75" rx="3" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+                                <rect x="6" y="8" width="18" height="3" rx="1.5" fill="#94a3b8"/>
+                                <rect x="6" y="13" width="12" height="1.5" rx="0.75" fill="#cbd5e1"/>
+                                <rect x="40" y="8" width="14" height="1" rx="0.5" fill="#cbd5e1"/>
+                                <rect x="38" y="10.5" width="16" height="1" rx="0.5" fill="#cbd5e1"/>
+                                <rect x="44" y="13" width="10" height="1" rx="0.5" fill="#cbd5e1"/>
+                                <line x1="6" y1="18" x2="54" y2="18" stroke="#cbd5e1" stroke-width="1"/>
+                                <rect x="6" y="22" width="12" height="2" rx="1" fill="#94a3b8"/>
+                                <line x1="6" y1="26" x2="54" y2="26" stroke="#e2e8f0" stroke-width="1"/>
+                                <rect x="6" y="29" width="20" height="1.5" rx="0.75" fill="#64748b"/>
+                                <rect x="42" y="29" width="12" height="1.5" rx="0.75" fill="#cbd5e1"/>
+                                <rect x="6" y="33" width="48" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                                <rect x="6" y="36" width="40" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                            </svg>
+                            <span id="lbl-tpl-minimal">Minimal</span>
+                        </button>
+                        <button type="button" class="tpl-btn" data-tpl="kreatif" onclick="changeTemplate('kreatif')">
+                            <svg viewBox="0 0 60 75" fill="none" style="width: 60px; height: 75px;">
+                                <rect width="60" height="75" rx="3" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+                                <rect x="0" y="0" width="22" height="75" fill="#f8fafc"/>
+                                <line x1="22" y1="0" x2="22" y2="75" stroke="#e2e8f0" stroke-width="1"/>
+                                <circle cx="11" cy="12" r="5" fill="#cbd5e1"/>
+                                <rect x="4" y="20" width="14" height="2" rx="1" fill="#64748b"/>
+                                <rect x="6" y="24" width="10" height="1.5" rx="0.75" fill="#2563eb" fill-opacity="0.8"/>
+                                <rect x="4" y="32" width="12" height="1.5" rx="0.75" fill="#94a3b8"/>
+                                <line x1="4" y1="35" x2="18" y2="35" stroke="#2563eb" stroke-width="1.5" stroke-opacity="0.8"/>
+                                <rect x="4" y="38" width="14" height="1" rx="0.5" fill="#cbd5e1"/>
+                                <rect x="4" y="41" width="12" height="1" rx="0.5" fill="#cbd5e1"/>
+                                
+                                <rect x="26" y="8" width="16" height="2" rx="1" fill="#94a3b8"/>
+                                <line x1="26" y1="12" x2="56" y2="12" stroke="#2563eb" stroke-width="1.5" stroke-opacity="0.8"/>
+                                <rect x="26" y="16" width="30" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                                <rect x="26" y="19" width="25" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                                <rect x="26" y="25" width="12" height="2" rx="1" fill="#94a3b8"/>
+                                <line x1="26" y1="29" x2="56" y2="29" stroke="#2563eb" stroke-width="1.5" stroke-opacity="0.8"/>
+                                <rect x="26" y="33" width="20" height="1.5" rx="0.75" fill="#64748b"/>
+                                <rect x="26" y="36" width="15" height="1.5" rx="0.75" fill="#cbd5e1"/>
+                            </svg>
+                            <span id="lbl-tpl-kreatif">Kreatif</span>
+                        </button>
+                        <button type="button" class="tpl-btn" data-tpl="kurumsal" onclick="changeTemplate('kurumsal')">
+                            <svg viewBox="0 0 60 75" fill="none" style="width: 60px; height: 75px;">
+                                <rect width="60" height="75" rx="3" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+                                <rect x="4" y="6" width="14" height="1.5" rx="0.75" fill="#cbd5e1"/>
+                                <rect x="4" y="9" width="24" height="3" rx="1.5" fill="#64748b"/>
+                                <circle cx="50" cy="12" r="6" fill="#cbd5e1"/>
+                                <line x1="4" y1="22" x2="56" y2="22" stroke="#cbd5e1" stroke-width="1"/>
+                                <line x1="22" y1="26" x2="22" y2="70" stroke="#e2e8f0" stroke-width="1"/>
+                                
+                                <rect x="4" y="26" width="12" height="1.5" rx="0.75" fill="#94a3b8"/>
+                                <rect x="4" y="30" width="14" height="1" rx="0.5" fill="#cbd5e1"/>
+                                <rect x="4" y="33" width="12" height="1" rx="0.5" fill="#cbd5e1"/>
+                                
+                                <rect x="26" y="26" width="16" height="2" rx="1" fill="#94a3b8"/>
+                                <rect x="26" y="31" width="30" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                                <rect x="26" y="34" width="26" height="1.5" rx="0.75" fill="#e2e8f0"/>
+                                <rect x="26" y="40" width="16" height="2" rx="1" fill="#94a3b8"/>
+                                <rect x="26" y="45" width="20" height="1.5" rx="0.75" fill="#64748b"/>
+                                <rect x="26" y="48" width="28" height="1" rx="0.5" fill="#cbd5e1"/>
+                            </svg>
+                            <span id="lbl-tpl-kurumsal">Kurumsal</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label id="lbl-font">Yazı Tipi</label>
+                        <select id="in-font-family" onchange="updateDesign()" class="modern-select">
+                            <option value="'Inter', sans-serif">Inter (Modern)</option>
+                            <option value="'Roboto', sans-serif">Roboto (Profesyonel)</option>
+                            <option value="'Poppins', sans-serif">Poppins (Yuvarlak)</option>
+                            <option value="'Merriweather', serif">Merriweather (Klasik)</option>
+                            <option value="'Playfair Display', serif">Playfair (Zarif)</option>
+                        </select>
+                    </div>
+                    <div class="setting-item" style="align-items: center;">
+                        <label id="lbl-color">Vurgu Rengi</label>
+                        <input type="color" id="in-color-primary" value="#2563eb" oninput="updateDesign()">
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><span id="lbl-spacing">Satır ve Bölüm Boşlukları</span></div>
+                    <input type="range" id="in-spacing" min="0.8" max="2.5" step="0.1" value="1.5"
+                        oninput="updateDesign()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span id="lbl-s-name">İsim</span> <span>(<span id="val-size-name">40</span>px)</span>
+                        <div class="style-toggles">
+                            <button type="button" class="btn-style active" data-target="name"
+                                data-style="bold">B</button>
+                            <button type="button" class="btn-style" data-target="name" data-style="italic">I</button>
+                        </div>
+                    </div>
+                    <input type="range" id="in-size-name" min="20" max="60" value="40" oninput="updateDesign()">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span id="lbl-s-title">Ünvan</span> <span>(<span id="val-size-title">18</span>px)</span>
+                        <div class="style-toggles">
+                            <button type="button" class="btn-style active" data-target="title"
+                                data-style="bold">B</button>
+                            <button type="button" class="btn-style" data-target="title" data-style="italic">I</button>
+                        </div>
+                    </div>
+                    <input type="range" id="in-size-title" min="12" max="30" value="18" oninput="updateDesign()">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span id="lbl-s-text">Normal Metin</span> <span>(<span id="val-size-text">14</span>px)</span>
+                        <div class="style-toggles">
+                            <button type="button" class="btn-style" data-target="text" data-style="bold">B</button>
+                            <button type="button" class="btn-style" data-target="text" data-style="italic">I</button>
+                        </div>
+                    </div>
+                    <input type="range" id="in-size-text" min="10" max="20" value="14" oninput="updateDesign()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Kişisel Bilgiler -->
+        <div class="form-section collapsed" id="fs-personal">
+            <h3 onclick="toggleFormSection('fs-personal')">
+                <div class="title-left" id="lbl-personal">Kişisel Bilgiler & İletişim</div>
+                <button type="button" class="toggle-btn"></button>
+            </h3>
+            <div class="section-content">
+                <div class="input-group">
+                    <label id="lbl-photo">Fotoğraf</label>
+                    <div class="photo-drop-zone" id="photo-drop-zone">
+                        <div class="drop-zone-content" id="drop-zone-content">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                            </svg>
+                            <span id="lbl-photo-drop">Sürükleyin veya tıklayın</span>
+                        </div>
+                        <div class="photo-preview-wrapper" id="photo-preview-wrapper" style="display:none;">
+                            <span id="photo-filename">foto.jpg</span>
+                            <button type="button" class="btn-remove-photo" id="lbl-photo-remove"
+                                onclick="removePhoto(event)">Kaldır</button>
+                        </div>
+                        <input type="file" id="in-photo" accept="image/*" onchange="previewPhoto(event)"
+                            style="display:none;">
+                    </div>
+                </div>
+                <div class="input-group"><label id="lbl-name">Ad Soyad</label><input type="text" id="in-name"
+                        placeholder="Ahmet Yılmaz" oninput="updateCV()"></div>
+                <div class="input-group"><label id="lbl-title">Meslek / Ünvan</label><input type="text" id="in-title"
+                        placeholder="Yazılım Geliştirici" oninput="updateCV()"></div>
+                <div class="input-group"><label id="lbl-email">E-posta</label><input type="email" id="in-email"
+                        placeholder="ahmet@email.com" oninput="updateCV()"></div>
+                <div class="input-group"><label id="lbl-phone">Telefon</label><input type="text" id="in-phone"
+                        placeholder="0555 123 45 67" oninput="updateCV()"></div>
+                <div class="input-group"><label id="lbl-address">Adres</label><input type="text" id="in-address"
+                        placeholder="Kadıköy, İstanbul" oninput="updateCV()"></div>
+                <div class="input-group"><label id="lbl-linkedin">LinkedIn</label><input type="text" id="in-linkedin"
+                        placeholder="linkedin.com/in/ahmet" oninput="updateCV()"></div>
+                <div class="input-group"><label id="lbl-github">GitHub</label><input type="text" id="in-github"
+                        placeholder="github.com/ahmet" oninput="updateCV()"></div>
+                <div class="input-group"><label id="lbl-website">Web Sitesi / Portfolyo</label><input type="text"
+                        id="in-website" placeholder="www.ahmet.com" oninput="updateCV()"></div>
+                <div class="input-group">
+                    <label id="lbl-summary">Hakkımda (Özet)</label>
+                    <textarea id="in-summary" placeholder="Kısaca kendinizden bahsedin..."
+                        oninput="updateCV()"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div id="main-sections-list" class="sortable-list" style="margin-top: 1rem; min-height: 50px;">
+        <!-- Deneyim -->
+        <div class="form-section collapsed" id="fs-experience" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+            <div class="section-header" onclick="toggleFormSection('fs-experience')">
+                <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+                <input type="text" id="in-t-exp" class="section-title-input" value="Deneyim" oninput="updateCV()"
+                    onclick="event.stopPropagation()">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <button type="button" class="toggle-btn"></button>
+                </div>
+            </div>
+            <div class="section-content">
+                <div id="exp-list" class="sortable-list"></div>
+                <button type="button" class="btn-add" onclick="addExperience()"><span>+</span> Yeni Ekle</button>
+            </div>
+        </div>
+
+        <!-- Eğitim -->
+        <div class="form-section collapsed" id="fs-education" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+            <div class="section-header" onclick="toggleFormSection('fs-education')">
+                <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+                <input type="text" id="in-t-edu" class="section-title-input" value="Eğitim" oninput="updateCV()"
+                    onclick="event.stopPropagation()">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <button type="button" class="toggle-btn"></button>
+                </div>
+            </div>
+            <div class="section-content">
+                <div id="edu-list" class="sortable-list"></div>
+                <button type="button" class="btn-add" onclick="addEducation()"><span>+</span> Yeni Ekle</button>
+            </div>
+        </div>
+
+        <!-- Yabancı Diller -->
+        <div class="form-section collapsed" id="fs-languages" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+            <div class="section-header" onclick="toggleFormSection('fs-languages')">
+                <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+                <input type="text" id="in-t-langs" class="section-title-input" value="Yabancı Diller"
+                    oninput="updateCV()" onclick="event.stopPropagation()">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <button type="button" class="toggle-btn"></button>
+                </div>
+            </div>
+            <div class="section-content">
+                <div id="lang-list" class="sortable-list"></div>
+                <button type="button" class="btn-add" onclick="addLanguage()"><span>+</span> Yeni Ekle</button>
+            </div>
+        </div>
+
+        <!-- Sertifikalar -->
+        <div class="form-section collapsed" id="fs-certs" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+            <div class="section-header" onclick="toggleFormSection('fs-certs')">
+                <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+                <input type="text" id="in-t-certs" class="section-title-input" value="Sertifikalar / Kurslar"
+                    oninput="updateCV()" onclick="event.stopPropagation()">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <button type="button" class="toggle-btn"></button>
+                </div>
+            </div>
+            <div class="section-content">
+                <div id="cert-list" class="sortable-list"></div>
+                <button type="button" class="btn-add" onclick="addCert()"><span>+</span> Yeni Ekle</button>
+            </div>
+        </div>
+
+        <!-- Projeler -->
+        <div class="form-section collapsed" id="fs-projects" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+            <div class="section-header" onclick="toggleFormSection('fs-projects')">
+                <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+                <input type="text" id="in-t-proj" class="section-title-input" value="Projeler" oninput="updateCV()"
+                    onclick="event.stopPropagation()">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <button type="button" class="toggle-btn"></button>
+                </div>
+            </div>
+            <div class="section-content">
+                <div id="proj-list" class="sortable-list"></div>
+                <button type="button" class="btn-add" onclick="addProject()"><span>+</span> Yeni Ekle</button>
+            </div>
+        </div>
+
+        <!-- Yetenekler -->
+        <div class="form-section collapsed" id="fs-skills" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+            <div class="section-header" onclick="toggleFormSection('fs-skills')">
+                <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+                <input type="text" id="in-t-skills" class="section-title-input" value="Yetenekler" oninput="updateCV()"
+                    onclick="event.stopPropagation()">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <button type="button" class="toggle-btn"></button>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="input-group">
+                    <label id="lbl-skills">Yetenekleriniz (Virgül ile ayırabilirsiniz)</label>
+                    <textarea id="in-skills" placeholder="Örn: JavaScript, React, Proje Yönetimi..."
+                        oninput="updateCV()"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hobiler -->
+        <div class="form-section collapsed" id="fs-hobbies" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+            <div class="section-header" onclick="toggleFormSection('fs-hobbies')">
+                <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+                <input type="text" id="in-t-hobbies" class="section-title-input" value="Hobiler & İlgi Alanları"
+                    oninput="updateCV()" onclick="event.stopPropagation()">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <button type="button" class="toggle-btn"></button>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="input-group">
+                    <label id="lbl-hobbies">Neler yapmaktan hoşlanırsınız?</label>
+                    <textarea id="in-hobbies" placeholder="Örn: Fotoğrafçılık, Doğa yürüyüşü..."
+                        oninput="updateCV()"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Referanslar -->
+        <div class="form-section collapsed" id="fs-refs" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+            <div class="section-header" onclick="toggleFormSection('fs-refs')">
+                <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+                <input type="text" id="in-t-refs" class="section-title-input" value="Referanslar" oninput="updateCV()"
+                    onclick="event.stopPropagation()">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <button type="button" class="toggle-btn"></button>
+                </div>
+            </div>
+            <div class="section-content">
+                <div id="ref-list" class="sortable-list"></div>
+                <button type="button" class="btn-add" onclick="addRef()"><span>+</span> Yeni Ekle</button>
+            </div>
+        </div>
+
+        </div> <!-- end main-sections-list -->
+        <button type="button" class="btn-export" onclick="addCustomSection()" style="width: 100%; justify-content: center; margin-top: 1.5rem; padding: 1rem; font-size: 0.9rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px; height:18px;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"></path></svg>
+            Yeni Bölüm Ekle
+        </button>
+    </div>
+
+    <!-- PREVIEW PANEL -->
+    <div class="preview-panel">
+        <div class="cv-sheet template-classic" id="cv-sheet">
+            <div class="cv-header-container" id="cv-header-container">
+                <div id="cv-photo" class="cv-photo" style="display: none;"></div>
+                <div class="cv-header-text" id="cv-header-text">
+                    <div class="cv-name" id="cv-name">Ad Soyad</div>
+                    <div class="cv-title" id="cv-title">Meslek / Ünvan</div>
+                    <div class="cv-contact" id="cv-contact">
+                        <span id="cv-email-wrapper" class="contact-item"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                            </svg><span id="cv-email"></span></span>
+                        <span id="cv-phone-wrapper" class="contact-item"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                                <path
+                                    d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                            </svg><span id="cv-phone"></span></span>
+                        <span id="cv-address-wrapper" class="contact-item"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                                <path fill-rule="evenodd"
+                                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                    clip-rule="evenodd" />
+                            </svg><span id="cv-address"></span></span>
+                    </div>
+                    <div class="cv-social-icons" id="cv-social-icons">
+                        <a href="#" id="cv-link-linkedin" class="social-icon" target="_blank" style="display:none;"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                </path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg></a>
+                        <a href="#" id="cv-link-github" class="social-icon" target="_blank" style="display:none;"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                                <path
+                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                </path>
+                            </svg></a>
+                        <a href="#" id="cv-link-website" class="social-icon" target="_blank" style="display:none;"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <path
+                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                </path>
+                            </svg></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cv-body" id="cv-body">
+                <aside class="cv-sidebar" id="cv-sidebar"></aside>
+                <main class="cv-main" id="cv-main">
+                    <div class="cv-summary" id="cv-summary">Hakkınızdaki özet bilgi burada görünecektir.</div>
+                    <div class="cv-section hidden" id="cv-section-languages">
+                        <h3 class="cv-section-title" id="t-langs">Yabancı Diller</h3>
+                        <div id="cv-lang-container"></div>
+                    </div>
+                    <div class="cv-section hidden" id="cv-section-skills">
+                        <h3 class="cv-section-title" id="t-skills">Yetenekler</h3>
+                        <div class="cv-desc" id="cv-skills"></div>
+                    </div>
+                    <div class="cv-section hidden" id="cv-section-experience">
+                        <h3 class="cv-section-title" id="t-exp">Deneyim</h3>
+                        <div id="cv-exp-container"></div>
+                    </div>
+                    <div class="cv-section hidden" id="cv-section-education">
+                        <h3 class="cv-section-title" id="t-edu">Eğitim</h3>
+                        <div id="cv-edu-container"></div>
+                    </div>
+                    <div class="cv-section hidden" id="cv-section-certs">
+                        <h3 class="cv-section-title" id="t-certs">Sertifikalar / Kurslar</h3>
+                        <div id="cv-cert-container"></div>
+                    </div>
+                    <div class="cv-section hidden" id="cv-section-projects">
+                        <h3 class="cv-section-title" id="t-proj">Projeler</h3>
+                        <div id="cv-proj-container"></div>
+                    </div>
+                    <div class="cv-section hidden" id="cv-section-hobbies">
+                        <h3 class="cv-section-title" id="t-hobbies">Hobiler & İlgi Alanları</h3>
+                        <div class="cv-desc" id="cv-hobbies"></div>
+                    </div>
+                    <div class="cv-section hidden" id="cv-section-refs">
+                        <h3 class="cv-section-title" id="t-refs">Referanslar</h3>
+                        <div id="cv-ref-container"></div>
+                    </div>
+                    <div id="cv-custom-sections-wrapper"></div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Modal -->
+    <div id="reset-modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+        <div
+            style="background:white; padding:2rem; border-radius:8px; width:400px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+            <h3 id="rm-title" style="margin-bottom:1rem; color:var(--text-main);">Tüm Verileri Sıfırla</h3>
+            <p id="rm-desc" style="color:var(--text-muted); margin-bottom:1.5rem; font-size:0.9rem;">Tüm bilgileriniz
+                silinecek ve başlangıç ayarlarına dönülecektir. Bu işlem geri alınamaz. Emin misiniz?</p>
+            <div style="display:flex; justify-content:center; gap:1rem;">
+                <button id="rm-cancel" onclick="hideResetModal()"
+                    style="padding:0.6rem 1.2rem; border:1px solid var(--border); background:white; border-radius:6px; cursor:pointer; font-weight:500;">İptal</button>
+                <button id="rm-confirm" onclick="confirmReset()"
+                    style="padding:0.6rem 1.2rem; border:none; background:#ef4444; color:white; border-radius:6px; cursor:pointer; font-weight:500;">Evet,
+                    Sıfırla</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
