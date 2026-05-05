@@ -718,6 +718,17 @@
         // --- DİĞER YARDIMCILAR ---
         function toggleFormSection(id) { document.getElementById(id).classList.toggle('collapsed'); }
 
+        function toggleMobileEditor() {
+            const panel = document.getElementById('editor-panel');
+            const text = document.getElementById('mobileToggleText');
+            panel.classList.toggle('mobile-open');
+            if (panel.classList.contains('mobile-open')) {
+                text.innerText = 'Önizle';
+            } else {
+                text.innerText = 'Düzenle';
+            }
+        }
+
         // Fotoğraf Yönetimi
         let photoUrl = '';
         function setupDragAndDrop() {

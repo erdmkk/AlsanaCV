@@ -1410,6 +1410,77 @@
             font-size: calc(var(--size-text) * 0.9);
         }
 
+        .mobile-toggle-btn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 1024px) {
+            body {
+                display: block;
+                height: 100vh;
+                overflow-y: auto;
+            }
+            .mobile-toggle-btn {
+                display: flex;
+            }
+            .editor-panel {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                min-width: unset;
+                z-index: 500;
+                transition: left 0.3s ease;
+                padding: 1.5rem;
+                padding-bottom: 80px;
+            }
+            .editor-panel.mobile-open {
+                left: 0;
+            }
+            .preview-panel {
+                width: 100%;
+                padding: 10px;
+                padding-bottom: 80px;
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+            .cv-sheet {
+                transform-origin: top left;
+                transform: scale(calc((100vw - 20px) / 210mm));
+                margin-bottom: calc(297mm * calc((100vw - 20px) / 210mm) - 297mm + 40px);
+            }
+            .editor-header {
+                position: static;
+                flex-direction: column;
+                align-items: flex-start;
+                padding-top: 0;
+            }
+            .header-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            .btn-export {
+                flex-grow: 1;
+                justify-content: center;
+            }
+        }
+
         @media print {
             @page {
                 margin: 0;
