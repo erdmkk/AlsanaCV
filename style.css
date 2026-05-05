@@ -1,4 +1,4 @@
-﻿:root {
+:root {
             /* Renkler */
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
@@ -654,6 +654,7 @@
             border-radius: 2px;
             margin-bottom: 3rem;
             position: relative;
+            flex-shrink: 0;
         }
 
         /* Ortak Element Stilleri */
@@ -1526,3 +1527,29 @@
             }
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
+.sort-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    margin-right: 0.5rem;
+}
+.sort-actions button {
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+.sort-actions button:hover {
+    background: #e2e8f0;
+    color: var(--text-main);
+}
+.sort-actions svg {
+    width: 14px;
+    height: 14px;
+}

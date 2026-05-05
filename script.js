@@ -20,7 +20,7 @@
             const html = `
                 <div class="item-card">
                     <div class="item-header">
-                        <div class="drag-handle">${dragSvg} Deneyim</div>
+                        <div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type">${dragSvg} Deneyim</div>
                         <button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button>
                     </div>
                     <div class="input-group"><input type="text" class="exp-company" placeholder="Şirket Adı" oninput="updateCV()"></div>
@@ -40,7 +40,7 @@
         function addEducation(data = {}) {
             const html = `
                 <div class="item-card">
-                    <div class="item-header"><div class="drag-handle">${dragSvg} Eğitim</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
+                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type">${dragSvg} Eğitim</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="edu-school" placeholder="Okul Adı" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="edu-degree" placeholder="Bölüm" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="edu-date" placeholder="Tarih" oninput="updateCV()"></div>
@@ -58,7 +58,7 @@
         function addProject(data = {}) {
             const html = `
                 <div class="item-card">
-                    <div class="item-header"><div class="drag-handle">${dragSvg} Proje</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
+                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type">${dragSvg} Proje</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="proj-name" placeholder="Proje Adı" oninput="updateCV()"></div>
                     <div class="input-group"><textarea class="proj-desc" placeholder="Açıklama" oninput="updateCV()"></textarea></div>
                 </div>`;
@@ -72,7 +72,7 @@
         function addLanguage(data = {}) {
             const html = `
                 <div class="item-card">
-                    <div class="item-header"><div class="drag-handle">${dragSvg} Dil</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
+                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type">${dragSvg} Dil</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="lang-name" placeholder="Örn: İngilizce" oninput="updateCV()"></div>
                     <div class="input-group">
                         <select class="lang-level" onchange="updateCV()">
@@ -98,7 +98,7 @@
         function addCert(data = {}) {
             const html = `
                 <div class="item-card">
-                    <div class="item-header"><div class="drag-handle">${dragSvg} Sertifika</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
+                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type">${dragSvg} Sertifika</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="cert-name" placeholder="Sertifika Adı" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="cert-issuer" placeholder="Kurum" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="cert-date" placeholder="Tarih" oninput="updateCV()"></div>
@@ -114,7 +114,7 @@
         function addRef(data = {}) {
             const html = `
                 <div class="item-card">
-                    <div class="item-header"><div class="drag-handle">${dragSvg} Referans</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
+                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type">${dragSvg} Referans</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="ref-name" placeholder="Ad Soyad" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="ref-title" placeholder="Ünvan ve Şirket" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="ref-contact" placeholder="İletişim Bilgisi" oninput="updateCV()"></div>
@@ -743,3 +743,36 @@
             loadData();
             updateMobileScale();
         });
+
+function moveItemUp(btn) {
+    const item = btn.closest('.item-card');
+    if (item && item.previousElementSibling) {
+        item.parentNode.insertBefore(item, item.previousElementSibling);
+        updateCV();
+        debounceSave();
+    }
+}
+function moveItemDown(btn) {
+    const item = btn.closest('.item-card');
+    if (item && item.nextElementSibling) {
+        item.parentNode.insertBefore(item.nextElementSibling, item);
+        updateCV();
+        debounceSave();
+    }
+}
+function moveSectionUp(btn) {
+    const section = btn.closest('.form-section');
+    if (section && section.previousElementSibling) {
+        section.parentNode.insertBefore(section, section.previousElementSibling);
+        updateCV();
+        debounceSave();
+    }
+}
+function moveSectionDown(btn) {
+    const section = btn.closest('.form-section');
+    if (section && section.nextElementSibling) {
+        section.parentNode.insertBefore(section.nextElementSibling, section);
+        updateCV();
+        debounceSave();
+    }
+}
