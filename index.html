@@ -11,6 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
         rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -287,7 +288,7 @@
 
         <div id="main-sections-list" class="sortable-list" style="margin-top: 1rem; min-height: 50px;">
         <!-- Deneyim -->
-        <div class="form-section collapsed" id="fs-experience" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+        <div class="form-section collapsed" id="fs-experience">
             <div class="section-header" onclick="toggleFormSection('fs-experience')">
                 <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
                 <input type="text" id="in-t-exp" class="section-title-input" value="Deneyim" oninput="updateCV()"
@@ -303,7 +304,7 @@
         </div>
 
         <!-- Eğitim -->
-        <div class="form-section collapsed" id="fs-education" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+        <div class="form-section collapsed" id="fs-education">
             <div class="section-header" onclick="toggleFormSection('fs-education')">
                 <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
                 <input type="text" id="in-t-edu" class="section-title-input" value="Eğitim" oninput="updateCV()"
@@ -319,7 +320,7 @@
         </div>
 
         <!-- Yabancı Diller -->
-        <div class="form-section collapsed" id="fs-languages" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+        <div class="form-section collapsed" id="fs-languages">
             <div class="section-header" onclick="toggleFormSection('fs-languages')">
                 <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
                 <input type="text" id="in-t-langs" class="section-title-input" value="Yabancı Diller"
@@ -335,7 +336,7 @@
         </div>
 
         <!-- Sertifikalar -->
-        <div class="form-section collapsed" id="fs-certs" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+        <div class="form-section collapsed" id="fs-certs">
             <div class="section-header" onclick="toggleFormSection('fs-certs')">
                 <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
                 <input type="text" id="in-t-certs" class="section-title-input" value="Sertifikalar / Kurslar"
@@ -351,7 +352,7 @@
         </div>
 
         <!-- Projeler -->
-        <div class="form-section collapsed" id="fs-projects" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+        <div class="form-section collapsed" id="fs-projects">
             <div class="section-header" onclick="toggleFormSection('fs-projects')">
                 <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
                 <input type="text" id="in-t-proj" class="section-title-input" value="Projeler" oninput="updateCV()"
@@ -367,7 +368,7 @@
         </div>
 
         <!-- Yetenekler -->
-        <div class="form-section collapsed" id="fs-skills" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+        <div class="form-section collapsed" id="fs-skills">
             <div class="section-header" onclick="toggleFormSection('fs-skills')">
                 <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
                 <input type="text" id="in-t-skills" class="section-title-input" value="Yetenekler" oninput="updateCV()"
@@ -386,7 +387,7 @@
         </div>
 
         <!-- Hobiler -->
-        <div class="form-section collapsed" id="fs-hobbies" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+        <div class="form-section collapsed" id="fs-hobbies">
             <div class="section-header" onclick="toggleFormSection('fs-hobbies')">
                 <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
                 <input type="text" id="in-t-hobbies" class="section-title-input" value="Hobiler & İlgi Alanları"
@@ -405,7 +406,7 @@
         </div>
 
         <!-- Referanslar -->
-        <div class="form-section collapsed" id="fs-refs" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+        <div class="form-section collapsed" id="fs-refs">
             <div class="section-header" onclick="toggleFormSection('fs-refs')">
                 <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
                 <input type="text" id="in-t-refs" class="section-title-input" value="Referanslar" oninput="updateCV()"

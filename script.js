@@ -1,54 +1,16 @@
-// --- DRAG AND DROP (SÜREKLE & BIRAK) ---
-        let draggedItem = null;
-        let dragSelector = '.item-card';
-
-        function handleDragStart(e) {
-            const card = e.target.closest('.item-card');
-            const section = e.target.closest('.form-section');
-
-            if (card) {
-                draggedItem = card;
-                dragSelector = '.item-card';
-            } else if (section && section.hasAttribute('draggable')) {
-                draggedItem = section;
-                dragSelector = '.form-section';
-            }
-            if (draggedItem) {
-                setTimeout(() => draggedItem.classList.add('dragging'), 0);
-            }
-        }
-
-        function handleDragEnd(e) {
-            if (draggedItem) {
-                draggedItem.classList.remove('dragging');
-                draggedItem = null;
-                updateCV();
-            }
-        }
-
+        // --- DRAG AND DROP (SÜREKLE & BIRAK) ---
         function initSortable(listId, itemSelector = '.item-card') {
             const list = document.getElementById(listId);
             if (!list) return;
-            list.addEventListener('dragover', e => {
-                e.preventDefault();
-                if (dragSelector !== itemSelector) return;
-                
-                const afterElement = getDragAfterElement(list, e.clientY, itemSelector);
-                if (draggedItem) {
-                    if (afterElement == null) list.appendChild(draggedItem);
-                    else list.insertBefore(draggedItem, afterElement);
+            new Sortable(list, {
+                handle: itemSelector === '.item-card' ? '.drag-handle' : '.section-header', // drag handle
+                animation: 150,
+                ghostClass: 'dragging',
+                onEnd: function () {
+                    updateCV();
+                    debounceSave();
                 }
             });
-        }
-
-        function getDragAfterElement(container, y, selector) {
-            const draggableElements = [...container.querySelectorAll(`${selector}:not(.dragging)`)];
-            return draggableElements.reduce((closest, child) => {
-                const box = child.getBoundingClientRect();
-                const offset = y - box.top - box.height / 2;
-                if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
-                else return closest;
-            }, { offset: Number.NEGATIVE_INFINITY }).element;
         }
 
         const dragSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>`;
@@ -56,7 +18,7 @@
         // --- FORM İÇERİK EKLEME FONKSİYONLARI ---
         function addExperience(data = {}) {
             const html = `
-                <div class="item-card" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+                <div class="item-card">
                     <div class="item-header">
                         <div class="drag-handle">${dragSvg} Deneyim</div>
                         <button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button>
@@ -77,7 +39,7 @@
 
         function addEducation(data = {}) {
             const html = `
-                <div class="item-card" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+                <div class="item-card">
                     <div class="item-header"><div class="drag-handle">${dragSvg} Eğitim</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="edu-school" placeholder="Okul Adı" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="edu-degree" placeholder="Bölüm" oninput="updateCV()"></div>
@@ -95,7 +57,7 @@
 
         function addProject(data = {}) {
             const html = `
-                <div class="item-card" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+                <div class="item-card">
                     <div class="item-header"><div class="drag-handle">${dragSvg} Proje</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="proj-name" placeholder="Proje Adı" oninput="updateCV()"></div>
                     <div class="input-group"><textarea class="proj-desc" placeholder="Açıklama" oninput="updateCV()"></textarea></div>
@@ -109,7 +71,7 @@
 
         function addLanguage(data = {}) {
             const html = `
-                <div class="item-card" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+                <div class="item-card">
                     <div class="item-header"><div class="drag-handle">${dragSvg} Dil</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="lang-name" placeholder="Örn: İngilizce" oninput="updateCV()"></div>
                     <div class="input-group">
@@ -135,7 +97,7 @@
 
         function addCert(data = {}) {
             const html = `
-                <div class="item-card" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+                <div class="item-card">
                     <div class="item-header"><div class="drag-handle">${dragSvg} Sertifika</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="cert-name" placeholder="Sertifika Adı" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="cert-issuer" placeholder="Kurum" oninput="updateCV()"></div>
@@ -151,7 +113,7 @@
 
         function addRef(data = {}) {
             const html = `
-                <div class="item-card" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+                <div class="item-card">
                     <div class="item-header"><div class="drag-handle">${dragSvg} Referans</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="ref-name" placeholder="Ad Soyad" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="ref-title" placeholder="Ünvan ve Şirket" oninput="updateCV()"></div>
@@ -168,7 +130,7 @@
         function addCustomSection(title = 'Yeni Bölüm', text = '') {
             const id = Math.random().toString(36).substr(2, 9);
             const html = `
-            <div class="form-section collapsed custom-section" id="fs-custom-${id}" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+            <div class="form-section collapsed custom-section" id="fs-custom-${id}">
                 <div class="section-header" onclick="toggleFormSection('fs-custom-${id}')">
                     <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
                     <input type="text" class="section-title-input custom-sec-title" value="${title}" oninput="updateCV()" onclick="event.stopPropagation()">
@@ -405,7 +367,7 @@
                                 // To maintain id integrity:
                                 const id = item.id || Math.random().toString(36).substr(2, 9);
                                 const html = `
-                                <div class="form-section collapsed custom-section" id="fs-custom-${id}" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+                                <div class="form-section collapsed custom-section" id="fs-custom-${id}">
                                     <div class="section-header" onclick="toggleFormSection('fs-custom-${id}')">
                                         ${svg_handle}
                                         <input type="text" class="section-title-input custom-sec-title" value="${item.title}" oninput="updateCV()" onclick="event.stopPropagation()">
