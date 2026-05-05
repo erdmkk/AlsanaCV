@@ -140,7 +140,7 @@ function addCustomSection(title = 'Yeni Bölüm', text = '') {
 function removeCustomSection(id, e) {
     e.stopPropagation();
     const el = document.getElementById(`fs-custom-${id}`);
-    if (el) { el.remove(); updateCV(); debounceSave(); }
+    if (el) { el.remove(); updateCV();  }
 }
 
 // --- TASARIM VE TEMPLATE YÖNETİMİ ---
@@ -212,7 +212,7 @@ function changeTemplate(tpl) {
         main.append(summary);
     }
     applySectionOrder();
-    debounceSave();
+    
 }
 
 document.querySelectorAll('.btn-style').forEach(btn => {
@@ -263,20 +263,16 @@ function updateDesign() {
     root.style.setProperty('--weight-text', checkActive('text', 'bold') ? '600' : '400');
     root.style.setProperty('--style-text', checkActive('text', 'italic') ? 'italic' : 'normal');
 
-    debounceSave();
+    
 }
 
 // --- LOCAL STORAGE (OTOMATİK KAYIT) ---
-let saveTimeout;
-let isInitialized = false;
 
-function debounceSave() {
-    if (!isInitialized) return;
-    clearTimeout(saveTimeout);
-    saveTimeout = setTimeout(saveData, 500);
-}
 
-function saveData() {
+
+
+
+function getCVData() {
     const data = {
         design: {
             font: document.getElementById('in-font-family').value,
@@ -325,15 +321,12 @@ function saveData() {
         refs: Array.from(document.querySelectorAll('#ref-list .item-card')).map(c => ({ name: c.querySelector('.ref-name').value, title: c.querySelector('.ref-title').value, contact: c.querySelector('.ref-contact').value }))
     };
 
-    try { localStorage.setItem('cvMakerData', JSON.stringify(data)); }
-    catch (e) { data.personal.photo = ''; localStorage.setItem('cvMakerData', JSON.stringify(data)); } // Fotoğraf çok büyükse onsuz kaydet
+    return data;
 }
 
-function loadData() {
-    const saved = localStorage.getItem('cvMakerData');
-    if (saved) {
+function applyImportedData(data) {
+    if (data) {
         try {
-            const data = JSON.parse(saved);
             // Kişisel
             ['name', 'title', 'email', 'phone', 'address', 'linkedin', 'github', 'website', 'summary'].forEach(k => {
                 if (data.personal[k] !== undefined) document.getElementById(`in-${k}`).value = data.personal[k];
@@ -420,10 +413,8 @@ function loadData() {
 
                 if (data.design.template) changeTemplate(data.design.template);
             }
-        } catch (e) { console.error("Load error:", e); initDefaults(); }
-    } else { initDefaults(); }
-
-    isInitialized = true;
+        } catch (e) { console.error("Load error:", e); }
+    }
     updateDesign();
     updateCV();
 }
@@ -438,8 +429,7 @@ function hideResetModal() { document.getElementById('reset-modal').style.display
 function confirmReset() { localStorage.removeItem('cvMakerData'); location.reload(); }
 
 function exportJSON() {
-    const data = localStorage.getItem('cvMakerData');
-    if (!data) return alert('Dışa aktarılacak veri bulunamadı.');
+    const data = JSON.stringify(getCVData());
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -471,7 +461,7 @@ function handleImport(event) {
             try {
                 const json = JSON.parse(e.target.result);
                 if (typeof json !== 'object') throw new Error();
-                localStorage.setItem('cvMakerData', JSON.stringify(json));
+                applyImportedData(json);
                 
                 spinner.style.display = 'none';
                 successIcon.style.display = 'block';
@@ -479,7 +469,7 @@ function handleImport(event) {
                 text.style.color = '#10b981';
                 
                 setTimeout(() => {
-                    location.reload();
+                    modal.style.display = 'none';
                 }, 1000);
             } catch (err) {
                 spinner.style.display = 'none';
@@ -698,7 +688,7 @@ function updateCV() {
     document.getElementById('cv-section-refs').classList.toggle('hidden', !hasRef);
 
     applySectionOrder();
-    debounceSave();
+    
 }
 
 // --- DİĞER YARDIMCILAR ---
@@ -725,8 +715,8 @@ function setupDragAndDrop() {
     z.addEventListener('drop', e => { e.preventDefault(); z.classList.remove('dragover'); if (!z.classList.contains('has-file') && e.dataTransfer.files[0]) { i.files = e.dataTransfer.files; handleFile(e.dataTransfer.files[0]); } });
 }
 function previewPhoto(e) { if (e.target.files[0]) handleFile(e.target.files[0]); }
-function handleFile(f) { const r = new FileReader(); r.onload = e => { photoUrl = e.target.result; updatePhotoDisplay(f.name); debounceSave(); }; r.readAsDataURL(f); }
-function removePhoto(e) { if (e) e.stopPropagation(); photoUrl = ''; document.getElementById('in-photo').value = ''; updatePhotoDisplay(); debounceSave(); }
+function handleFile(f) { const r = new FileReader(); r.onload = e => { photoUrl = e.target.result; updatePhotoDisplay(f.name);  }; r.readAsDataURL(f); }
+function removePhoto(e) { if (e) e.stopPropagation(); photoUrl = ''; document.getElementById('in-photo').value = ''; updatePhotoDisplay();  }
 function updatePhotoDisplay(name = '') {
     const cvP = document.getElementById('cv-photo'), z = document.getElementById('photo-drop-zone'), s = document.getElementById('cv-sheet');
     if (photoUrl) {
@@ -762,7 +752,7 @@ window.addEventListener('resize', updateMobileScale);
 
 document.addEventListener('DOMContentLoaded', () => {
     setupDragAndDrop();
-            loadData();
+            initDefaults();
     updateMobileScale();
 });
 
@@ -771,7 +761,7 @@ function moveItemUp(btn) {
     if (item && item.previousElementSibling) {
         item.parentNode.insertBefore(item, item.previousElementSibling);
         updateCV();
-        debounceSave();
+        
     }
 }
 function moveItemDown(btn) {
@@ -779,7 +769,7 @@ function moveItemDown(btn) {
     if (item && item.nextElementSibling) {
         item.parentNode.insertBefore(item.nextElementSibling, item);
         updateCV();
-        debounceSave();
+        
     }
 }
 function moveSectionUp(btn) {
@@ -787,7 +777,7 @@ function moveSectionUp(btn) {
     if (section && section.previousElementSibling) {
         section.parentNode.insertBefore(section, section.previousElementSibling);
         updateCV();
-        debounceSave();
+        
     }
 }
 function moveSectionDown(btn) {
@@ -795,6 +785,11 @@ function moveSectionDown(btn) {
     if (section && section.nextElementSibling) {
         section.parentNode.insertBefore(section.nextElementSibling, section);
         updateCV();
-        debounceSave();
+        
     }
 }
+
+window.addEventListener('beforeunload', function (e) {
+    e.preventDefault();
+    e.returnValue = '';
+});
