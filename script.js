@@ -1,15 +1,3 @@
-// --- DRAG AND DROP (SÜREKLE & BIRAK) ---
-function initSortable(listId, itemSelector = '.item-card') {
-    const list = document.getElementById(listId);
-    if (!list) return;
-    new Sortable(list, {
-        handle: itemSelector === '.item-card' ? '.drag-handle' : '.section-header', // drag handle
-        animation: 150,
-        ghostClass: 'dragging',
-        onEnd: function () {
-            updateCV();
-            debounceSave();
-        }
     });
 }
 
@@ -777,9 +765,7 @@ window.addEventListener('resize', updateMobileScale);
 
 document.addEventListener('DOMContentLoaded', () => {
     setupDragAndDrop();
-    ['exp-list', 'edu-list', 'proj-list', 'lang-list', 'cert-list', 'ref-list'].forEach(id => initSortable(id, '.item-card'));
-    initSortable('main-sections-list', '.form-section');
-    loadData();
+            loadData();
     updateMobileScale();
 });
 
