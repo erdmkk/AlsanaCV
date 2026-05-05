@@ -1,3 +1,5 @@
+let saveTimeout;
+let isInitialized = false;
 const dragSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>`;
 
 // --- FORM İÇERİK EKLEME FONKSİYONLARI ---
@@ -140,7 +142,7 @@ function addCustomSection(title = 'Yeni Bölüm', text = '') {
 function removeCustomSection(id, e) {
     e.stopPropagation();
     const el = document.getElementById(`fs-custom-${id}`);
-    if (el) { el.remove(); updateCV();  }
+    if (el) { el.remove(); updateCV(); }
 }
 
 // --- TASARIM VE TEMPLATE YÖNETİMİ ---
@@ -212,7 +214,7 @@ function changeTemplate(tpl) {
         main.append(summary);
     }
     applySectionOrder();
-    
+
 }
 
 document.querySelectorAll('.btn-style').forEach(btn => {
@@ -223,6 +225,7 @@ document.querySelectorAll('.btn-style').forEach(btn => {
 });
 
 function updateDesign() {
+    debounceSave();
     const root = document.documentElement;
 
     const font = document.getElementById('in-font-family').value;
@@ -263,7 +266,7 @@ function updateDesign() {
     root.style.setProperty('--weight-text', checkActive('text', 'bold') ? '600' : '400');
     root.style.setProperty('--style-text', checkActive('text', 'italic') ? 'italic' : 'normal');
 
-    
+
 }
 
 // --- LOCAL STORAGE (OTOMATİK KAYIT) ---
@@ -271,6 +274,15 @@ function updateDesign() {
 
 
 
+
+function debounceSave() {
+    if (!isInitialized) return;
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => {
+        try { localStorage.setItem('cvMakerData', JSON.stringify(getCVData())); }
+        catch (e) { const data = getCVData(); data.personal.photo = ''; localStorage.setItem('cvMakerData', JSON.stringify(data)); }
+    }, 500);
+}
 
 function getCVData() {
     const data = {
@@ -443,12 +455,12 @@ function exportJSON() {
 function handleImport(event) {
     const file = event.target.files[0];
     if (!file) return;
-    
+
     const modal = document.getElementById('loading-modal');
     const spinner = document.getElementById('loading-spinner');
     const successIcon = document.getElementById('loading-success');
     const text = document.getElementById('loading-text');
-    
+
     modal.style.display = 'flex';
     spinner.style.display = 'block';
     successIcon.style.display = 'none';
@@ -462,12 +474,12 @@ function handleImport(event) {
                 const json = JSON.parse(e.target.result);
                 if (typeof json !== 'object') throw new Error();
                 applyImportedData(json);
-                
+
                 spinner.style.display = 'none';
                 successIcon.style.display = 'block';
                 text.innerText = 'Başarılı!';
                 text.style.color = '#10b981';
-                
+
                 setTimeout(() => {
                     modal.style.display = 'none';
                 }, 1000);
@@ -551,6 +563,7 @@ function formatText(str) {
 }
 
 function updateCV() {
+    debounceSave();
     const updateT = (id, cvId, def) => {
         const val = document.getElementById(id).value;
         const el = document.getElementById(cvId);
@@ -688,7 +701,7 @@ function updateCV() {
     document.getElementById('cv-section-refs').classList.toggle('hidden', !hasRef);
 
     applySectionOrder();
-    
+
 }
 
 // --- DİĞER YARDIMCILAR ---
@@ -715,8 +728,8 @@ function setupDragAndDrop() {
     z.addEventListener('drop', e => { e.preventDefault(); z.classList.remove('dragover'); if (!z.classList.contains('has-file') && e.dataTransfer.files[0]) { i.files = e.dataTransfer.files; handleFile(e.dataTransfer.files[0]); } });
 }
 function previewPhoto(e) { if (e.target.files[0]) handleFile(e.target.files[0]); }
-function handleFile(f) { const r = new FileReader(); r.onload = e => { photoUrl = e.target.result; updatePhotoDisplay(f.name);  }; r.readAsDataURL(f); }
-function removePhoto(e) { if (e) e.stopPropagation(); photoUrl = ''; document.getElementById('in-photo').value = ''; updatePhotoDisplay();  }
+function handleFile(f) { const r = new FileReader(); r.onload = e => { photoUrl = e.target.result; updatePhotoDisplay(f.name); }; r.readAsDataURL(f); }
+function removePhoto(e) { if (e) e.stopPropagation(); photoUrl = ''; document.getElementById('in-photo').value = ''; updatePhotoDisplay(); }
 function updatePhotoDisplay(name = '') {
     const cvP = document.getElementById('cv-photo'), z = document.getElementById('photo-drop-zone'), s = document.getElementById('cv-sheet');
     if (photoUrl) {
@@ -752,7 +765,20 @@ window.addEventListener('resize', updateMobileScale);
 
 document.addEventListener('DOMContentLoaded', () => {
     setupDragAndDrop();
+    
+    const saved = localStorage.getItem('cvMakerData');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            applyImportedData(data);
+        } catch(e) {
             initDefaults();
+        }
+    } else {
+        initDefaults();
+    }
+    
+    isInitialized = true;
     updateMobileScale();
 });
 
@@ -761,7 +787,7 @@ function moveItemUp(btn) {
     if (item && item.previousElementSibling) {
         item.parentNode.insertBefore(item, item.previousElementSibling);
         updateCV();
-        
+
     }
 }
 function moveItemDown(btn) {
@@ -769,7 +795,7 @@ function moveItemDown(btn) {
     if (item && item.nextElementSibling) {
         item.parentNode.insertBefore(item.nextElementSibling, item);
         updateCV();
-        
+
     }
 }
 function moveSectionUp(btn) {
@@ -777,7 +803,7 @@ function moveSectionUp(btn) {
     if (section && section.previousElementSibling) {
         section.parentNode.insertBefore(section, section.previousElementSibling);
         updateCV();
-        
+
     }
 }
 function moveSectionDown(btn) {
@@ -785,11 +811,7 @@ function moveSectionDown(btn) {
     if (section && section.nextElementSibling) {
         section.parentNode.insertBefore(section.nextElementSibling, section);
         updateCV();
-        
+
     }
 }
 
-window.addEventListener('beforeunload', function (e) {
-    e.preventDefault();
-    e.returnValue = '';
-});
