@@ -1,4 +1,4 @@
-        // --- DRAG AND DROP (SÜREKLE & BIRAK) ---
+﻿        // --- DRAG AND DROP (SÜREKLE & BIRAK) ---
         function initSortable(listId, itemSelector = '.item-card') {
             const list = document.getElementById(listId);
             if (!list) return;
