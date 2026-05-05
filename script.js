@@ -1,4 +1,4 @@
-﻿        // --- DRAG AND DROP (SÜREKLE & BIRAK) ---
+        // --- DRAG AND DROP (SÜREKLE & BIRAK) ---
         function initSortable(listId, itemSelector = '.item-card') {
             const list = document.getElementById(listId);
             if (!list) return;
@@ -20,7 +20,7 @@
             const html = `
                 <div class="item-card">
                     <div class="item-header">
-                        <div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type">${dragSvg} Deneyim</div>
+                        <div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type"> Deneyim</div>
                         <button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button>
                     </div>
                     <div class="input-group"><input type="text" class="exp-company" placeholder="Şirket Adı" oninput="updateCV()"></div>
@@ -40,7 +40,7 @@
         function addEducation(data = {}) {
             const html = `
                 <div class="item-card">
-                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type">${dragSvg} Eğitim</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
+                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type"> Eğitim</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="edu-school" placeholder="Okul Adı" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="edu-degree" placeholder="Bölüm" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="edu-date" placeholder="Tarih" oninput="updateCV()"></div>
@@ -58,7 +58,7 @@
         function addProject(data = {}) {
             const html = `
                 <div class="item-card">
-                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type">${dragSvg} Proje</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
+                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type"> Proje</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="proj-name" placeholder="Proje Adı" oninput="updateCV()"></div>
                     <div class="input-group"><textarea class="proj-desc" placeholder="Açıklama" oninput="updateCV()"></textarea></div>
                 </div>`;
@@ -72,7 +72,7 @@
         function addLanguage(data = {}) {
             const html = `
                 <div class="item-card">
-                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type">${dragSvg} Dil</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
+                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type"> Dil</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="lang-name" placeholder="Örn: İngilizce" oninput="updateCV()"></div>
                     <div class="input-group">
                         <select class="lang-level" onchange="updateCV()">
@@ -98,7 +98,7 @@
         function addCert(data = {}) {
             const html = `
                 <div class="item-card">
-                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type">${dragSvg} Sertifika</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
+                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type"> Sertifika</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="cert-name" placeholder="Sertifika Adı" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="cert-issuer" placeholder="Kurum" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="cert-date" placeholder="Tarih" oninput="updateCV()"></div>
@@ -114,7 +114,7 @@
         function addRef(data = {}) {
             const html = `
                 <div class="item-card">
-                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type">${dragSvg} Referans</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
+                    <div class="item-header"><div class="sort-actions"><button type="button" onclick="moveItemUp(this)" title="Yukarı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button><button type="button" onclick="moveItemDown(this)" title="Aşağı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="item-type"> Referans</div><button type="button" class="btn-remove" onclick="this.closest('.item-card').remove(); updateCV();">Sil</button></div>
                     <div class="input-group"><input type="text" class="ref-name" placeholder="Ad Soyad" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="ref-title" placeholder="Ünvan ve Şirket" oninput="updateCV()"></div>
                     <div class="input-group"><input type="text" class="ref-contact" placeholder="İletişim Bilgisi" oninput="updateCV()"></div>
@@ -132,7 +132,10 @@
             const html = `
             <div class="form-section collapsed custom-section" id="fs-custom-${id}">
                 <div class="section-header" onclick="toggleFormSection('fs-custom-${id}')">
-                    <div class="drag-handle" style="margin-right:0.5rem; color:#aaa;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;cursor:grab"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+                    <div class="sort-actions" onclick="event.stopPropagation()">
+                    <button type="button" onclick="moveSectionUp(this)" title="Yukarı Taşı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button>
+                    <button type="button" onclick="moveSectionDown(this)" title="Aşağı Taşı"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+                </div>
                     <input type="text" class="section-title-input custom-sec-title" value="${title}" oninput="updateCV()" onclick="event.stopPropagation()">
                     <div style="display:flex; align-items:center; gap:0.5rem;">
                         <button type="button" class="btn-remove" onclick="removeCustomSection('${id}', event)" style="margin-right:0.5rem;">Sil</button>
@@ -486,6 +489,12 @@
             const btnPdf = document.getElementById('btn-pdf');
             const originalHtml = btnPdf.innerHTML;
             
+            // PDF için geçici olarak scale'i sıfırla (mobildeyken PDF minik çıkmasın)
+            const originalTransform = element.style.transform;
+            const originalMargin = element.style.marginBottom;
+            element.style.transform = 'none';
+            element.style.marginBottom = '0';
+            
             btnPdf.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:18px;height:18px;animation:spin 2s linear infinite;">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -509,11 +518,15 @@
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
+                element.style.transform = originalTransform;
+                element.style.marginBottom = originalMargin;
                 btnPdf.innerHTML = originalHtml;
                 btnPdf.disabled = false;
                 btnPdf.style.opacity = '1';
                 btnPdf.style.cursor = 'pointer';
             }).catch(err => {
+                element.style.transform = originalTransform;
+                element.style.marginBottom = originalMargin;
                 console.error(err);
                 btnPdf.innerHTML = originalHtml;
                 btnPdf.disabled = false;
@@ -738,8 +751,8 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             setupDragAndDrop();
-            ['exp-list', 'edu-list', 'proj-list', 'lang-list', 'cert-list', 'ref-list'].forEach(id => initSortable(id, '.item-card'));
-            initSortable('main-sections-list', '.form-section');
+            
+            
             loadData();
             updateMobileScale();
         });
